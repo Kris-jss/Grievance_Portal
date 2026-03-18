@@ -61,39 +61,39 @@ This system provides a safe platform for students to report issues like ragging,
 
 ### Setup Steps
 
-1. Clone the repository
+1. **Clone the repository**
 ```bash
 git clone https://github.com/Kris-jss/Grievance_Portal.git
 cd Grievance_Portal
 ```
 
-2. Create virtual environment
+2. **Create virtual environment**
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-3. Install dependencies
+3. **Install dependencies**
 ```bash
 pip install django pillow
 ```
 
-4. Run migrations
+4. **Run migrations**
 ```bash
 python manage.py migrate
 ```
 
-5. Create superuser (admin account)
+5. **Create superuser (admin account)**
 ```bash
 python manage.py createsuperuser
 ```
 
-6. Set user role to admin
+6. **Set user role to admin**
 ```bash
 python manage.py shell
 ```
 
-Python
+# Python
 ```
 from accounts.models import User
 admin = User.objects.get(username='your_username')
@@ -102,20 +102,20 @@ admin.save()
 exit()
 ```
 
-7. Run development server
+7. **Run development server**
 ```bash
 python manage.py runserver
 ```
 
-8. Access the application
+8. **Access the application**
 Homepage: http://127.0.0.1:8000/
 Admin Panel: http://127.0.0.1:8000/admin/
 
 
-👨‍💻 Author:
+# 👨‍💻 Author:
 - Built as an intermediate-level Django project for learning purposes.
 
-📄 License:
+# 📄 License:
 - MIT License
 
 

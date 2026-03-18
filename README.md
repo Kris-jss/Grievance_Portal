@@ -111,11 +111,33 @@ python manage.py runserver
 - Homepage: http://127.0.0.1:8000/
 - Admin Panel: http://127.0.0.1:8000/admin/
 
+## 🎯 Usage
 
-## 👨‍💻 Author:
-- Built as an intermediate-level Django project for learning purposes.
+### For Students:
+1. Register a new account
+2. Login and submit complaints
+3. Track status and view responses
+4. Delete complaints if needed
 
-## 📄 License:
-- MIT License
+### For Admins:
+1. Login with admin credentials
+2. View and filter all complaints
+3. Respond to complaints
+4. Update status and archive
 
+## 🌟 Key Highlights
 
+- Auto-generated Complaint IDs (GRV-YYYY-###)
+- Soft delete for admins
+- Archive system
+- Responsive mobile-friendly design
+- Anti-ragging awareness section
+- Emergency helplines included
+
+## 👨‍💻 Author
+
+Built as an intermediate-level Django project for learning purposes.
+
+## 📄 License
+
+MIT License

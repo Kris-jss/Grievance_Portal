@@ -83,7 +83,7 @@ pip install django pillow
 python manage.py migrate
 ```
 
-5.Create superuser (admin account)
+5. Create superuser (admin account)
 ```bash
 python manage.py createsuperuser
 ```
@@ -111,16 +111,6 @@ python manage.py runserver
 Homepage: http://127.0.0.1:8000/
 Admin Panel: http://127.0.0.1:8000/admin/
 
-📂 Project Structure
-
-grievance_portal/
-├── accounts/              # User authentication & management
-├── complaints/           # Complaint management system
-├── config/              # Project configuration
-├── templates/          # Shared templates
-├── static/            # CSS, JavaScript
-├── media/             # User uploads
-└── manage.py         # Django management
 🎯 Usage
 For Students:
 Register a new account

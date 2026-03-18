@@ -65,44 +65,53 @@ This system provides a safe platform for students to report issues like ragging,
 ```bash
 git clone https://github.com/Kris-jss/Grievance_Portal.git
 cd Grievance_Portal
+```
 
 2. Create virtual environment
-Bash
-
+```bash
 python3 -m venv venv
 source venv/bin/activate
-Install dependencies
-Bash
+```
 
+3. Install dependencies
+```bash
 pip install django pillow
-Run migrations
-Bash
+```
 
+4. Run migrations
+```bash
 python manage.py migrate
-Create superuser (admin account)
-Bash
+```
 
+5.Create superuser (admin account)
+```bash
 python manage.py createsuperuser
-Set user role to admin
-Bash
+```
 
+6. Set user role to admin
+```bash
 python manage.py shell
-Python
+```
 
+Python
+```
 from accounts.models import User
 admin = User.objects.get(username='your_username')
 admin.role = 'admin'
 admin.save()
 exit()
-Run development server
-Bash
+```
 
+7. Run development server
+```bash
 python manage.py runserver
-Access the application
+```
+
+8. Access the application
 Homepage: http://127.0.0.1:8000/
 Admin Panel: http://127.0.0.1:8000/admin/
+
 📂 Project Structure
-text
 
 grievance_portal/
 ├── accounts/              # User authentication & management

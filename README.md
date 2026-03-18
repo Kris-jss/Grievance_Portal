@@ -93,7 +93,7 @@ python manage.py createsuperuser
 python manage.py shell
 ```
 
-**Python**
+### **Python**
 ```
 from accounts.models import User
 admin = User.objects.get(username='your_username')
@@ -112,10 +112,10 @@ python manage.py runserver
 - Admin Panel: http://127.0.0.1:8000/admin/
 
 
-# 👨‍💻 Author:
+## 👨‍💻 Author:
 - Built as an intermediate-level Django project for learning purposes.
 
-# 📄 License:
+## 📄 License:
 - MIT License
 
 

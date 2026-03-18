@@ -65,3 +65,75 @@ This system provides a safe platform for students to report issues like ragging,
 ```bash
 git clone https://github.com/Kris-jss/Grievance_Portal.git
 cd Grievance_Portal
+
+2. Create virtual environment
+Bash
+
+python3 -m venv venv
+source venv/bin/activate
+Install dependencies
+Bash
+
+pip install django pillow
+Run migrations
+Bash
+
+python manage.py migrate
+Create superuser (admin account)
+Bash
+
+python manage.py createsuperuser
+Set user role to admin
+Bash
+
+python manage.py shell
+Python
+
+from accounts.models import User
+admin = User.objects.get(username='your_username')
+admin.role = 'admin'
+admin.save()
+exit()
+Run development server
+Bash
+
+python manage.py runserver
+Access the application
+Homepage: http://127.0.0.1:8000/
+Admin Panel: http://127.0.0.1:8000/admin/
+📂 Project Structure
+text
+
+grievance_portal/
+├── accounts/              # User authentication & management
+├── complaints/           # Complaint management system
+├── config/              # Project configuration
+├── templates/          # Shared templates
+├── static/            # CSS, JavaScript
+├── media/             # User uploads
+└── manage.py         # Django management
+🎯 Usage
+For Students:
+Register a new account
+Login and submit complaints
+Track status and view responses
+Delete complaints if needed
+For Admins:
+Login with admin credentials
+View and filter all complaints
+Respond to complaints
+Update status and archive
+🌟 Key Highlights
+Auto-generated Complaint IDs (GRV-YYYY-###)
+Soft delete for admins
+Archive system
+Responsive mobile-friendly design
+Anti-ragging awareness section
+Emergency helplines included
+👨‍💻 Author
+Built as an intermediate-level Django project for learning purposes.
+
+📄 License
+MIT License
+
+

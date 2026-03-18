@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Grievance Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        margin-top: -1rem;
+    }
+    
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .icon-box {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+    
+    .alert-banner {
+        background: linear-gradient(90deg, #ff6b6b 0%, #ee5a6f 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        border-left: 5px solid #c92a2a;
+    }
+    
+    .info-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 20px;
+        border: none;
+    }
+    
+    .stats-box {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-4">🎓 Student Grievance Portal</h1>
+        <p class="lead mb-4">A Safe Space to Voice Your Concerns</p>
+        <p class="mb-5">Report incidents confidentially. We're here to help and ensure a safer campus.</p>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-5 py-3 me-3">
+                Go to Dashboard
+            </a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 py-3 me-3">
+                Register Now
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5 py-3">
+                Login
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container my-5">
+    
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <div class="d-flex align-items-center">
+            <span style="font-size: 30px; margin-right: 15px;">⚠️</span>
+            <div>
+                <h5 class="mb-1">Zero Tolerance Policy</h5>
+                <p class="mb-0">Our institution has a strict zero-tolerance policy against ragging, harassment, and any form of misconduct. Your complaint will be taken seriously and handled with complete confidentiality.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- What You Can Report -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">What You Can Report</h2>
+            <p class="text-muted">We're here to address all your concerns</p>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center p-4">
+                    <div class="icon-box mx-auto">🚫</div>
+                    <h5 class="fw-bold">Ragging</h5>
+                    <p class="text-muted">Any form of ragging, bullying, or intimidation by seniors or peers. This includes physical, verbal, or psychological harassment.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center p-4">
+                    <div class="icon-box mx-auto">⚖️</div>
+                    <h5 class="fw-bold">Harassment</h5>
+                    <p class="text-muted">Sexual harassment, discrimination based on gender, caste, religion, or any form of unwanted behavior.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center p-4">
+                    <div class="icon-box mx-auto">👨‍🏫</div>
+                    <h5 class="fw-bold">Faculty Issues</h5>
+                    <p class="text-muted">Unfair treatment, bias in grading, misconduct, or unprofessional behavior by faculty members.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center p-4">
+                    <div class="icon-box mx-auto">🏢</div>
+                    <h5 class="fw-bold">Infrastructure</h5>
+                    <p class="text-muted">Safety hazards, maintenance issues, lack of facilities, or concerns about campus infrastructure.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center p-4">
+                    <div class="icon-box mx-auto">👥</div>
+                    <h5 class="fw-bold">Student Misconduct</h5>
+                    <p class="text-muted">Misbehavior, violence, theft, or any inappropriate conduct by fellow students.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card">
+                <div class="card-body text-center p-4">
+                    <div class="icon-box mx-auto">📝</div>
+                    <h5 class="fw-bold">Other Concerns</h5>
+                    <p class="text-muted">Any other academic, administrative, or personal concerns affecting your student life.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Important Information -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Important Information</h2>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <div class="info-card">
+                <h4>🔒 Your Privacy is Protected</h4>
+                <p class="mb-0">Your identity and complaint details are visible only to authorized administrators. We ensure complete confidentiality throughout the resolution process.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <div class="info-card">
+                <h4>⚡ Quick Response</h4>
+                <p class="mb-0">All complaints are reviewed within 24-48 hours. You'll receive regular updates on the status of your complaint through the dashboard.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <div class="info-card">
+                <h4>📋 Track Your Complaint</h4>
+                <p class="mb-0">Each complaint gets a unique tracking ID. You can monitor the progress and see responses from administrators anytime.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <div class="info-card">
+                <h4>🤝 Fair Investigation</h4>
+                <p class="mb-0">Every complaint is investigated fairly and impartially. Appropriate action will be taken based on the severity and evidence.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Anti-Ragging Awareness -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">🚨 Anti-Ragging Awareness</h4>
+                </div>
+                <div class="card-body">
+                    <h5>What is Ragging?</h5>
+                    <p>Ragging means any act that causes physical or psychological harm, creates fear, or violates the dignity of a student.</p>
+                    
+                    <h5 class="mt-4">Ragging is a Criminal Offense!</h5>
+                    <ul>
+                        <li>Imprisonment up to 3 years and/or fine up to Rs. 25,000</li>
+                        <li>Immediate suspension/expulsion from institution</li>
+                        <li>Debarment from admission to any educational institution</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning mt-3">
+                        <strong>📞 National Anti-Ragging Helpline:</strong> 1800-180-5522 (24x7 Toll-Free)
+                    </div>
+                    
+                    <h5 class="mt-4">If You Witness Ragging:</h5>
+                    <ol>
+                        <li>Report immediately through this portal or helpline</li>
+                        <li>Do not participate or be a silent spectator</li>
+                        <li>Support the victim and encourage them to report</li>
+                        <li>Remember: Silence enables the perpetrators</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- How It Works -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">How It Works</h2>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stats-box">
+                <div class="display-4 mb-3">1️⃣</div>
+                <h5>Register</h5>
+                <p class="text-muted mb-0">Create your account with college email</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stats-box">
+                <div class="display-4 mb-3">2️⃣</div>
+                <h5>Submit</h5>
+                <p class="text-muted mb-0">File your complaint with details</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stats-box">
+                <div class="display-4 mb-3">3️⃣</div>
+                <h5>Track</h5>
+                <p class="text-muted mb-0">Monitor status via dashboard</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stats-box">
+                <div class="display-4 mb-3">4️⃣</div>
+                <h5>Resolve</h5>
+                <p class="text-muted mb-0">Get response and resolution</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="text-center py-5">
+        {% if not user.is_authenticated %}
+            <h3 class="mb-4">Ready to Make a Difference?</h3>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-5 py-3">
+                Get Started Now
+            </a>
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock %}

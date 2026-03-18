@@ -1,0 +1,628 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .admin-stat-card {
+        border-radius: 15px;
+        padding: 1.8rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .admin-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        transform: translate(30%, -30%);
+    }
+    
+    .admin-stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    
+    .admin-stat-card h2 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .admin-stat-card p {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1rem;
+        color: white;
+        opacity: 0.95;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.8rem;
+        color: white;
+        opacity: 0.9;
+    }
+    
+    .filter-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .filter-section h5 {
+        color: #1e293b;
+        font-weight: 700;
+    }
+    
+    .filter-btn {
+        border-radius: 10px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .filter-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .complaints-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .complaints-header {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+        padding: 1.5rem 2rem;
+        color: white;
+    }
+    
+    .complaints-header h4 {
+        color: white;
+        margin-bottom: 0;
+    }
+    
+    .complaint-row {
+        transition: all 0.3s ease;
+    }
+    
+    .complaint-row:hover {
+        background-color: #f8fafc;
+    }
+    
+    .table thead {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+    
+    .table thead th {
+        color: #1e293b;
+        font-weight: 700;
+        border: none;
+        padding: 1rem;
+    }
+    
+    .modal-header-admin {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+        color: white;
+    }
+    
+    .modal-header-admin .modal-title {
+        color: white;
+    }
+    
+    .response-section {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-top: 1.5rem;
+        border: 1px solid #bae6fd;
+    }
+    
+    .response-section h6 {
+        color: #0369a1;
+    }
+    
+    .previous-response {
+        background: white;
+        border-left: 4px solid #667eea;
+        padding: 1.2rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .empty-state-admin {
+        padding: 5rem 2rem;
+        text-align: center;
+    }
+    
+    .empty-state-admin i {
+        font-size: 6rem;
+        color: #cbd5e1;
+        margin-bottom: 1.5rem;
+    }
+    
+    .empty-state-admin h4 {
+        color: #64748b;
+    }
+    
+    .empty-state-admin p {
+        color: #94a3b8;
+    }
+    
+    .action-buttons .btn {
+        white-space: nowrap;
+}
+
+.action-buttons .btn {
+        margin: 2px;
+        padding: 0.35rem 0.6rem;
+        font-size: 0.8rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Admin Header -->
+<div class="admin-header">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="mb-2">
+                <i class="bi bi-shield-fill-check me-2"></i>
+                Admin Control Panel
+            </h1>
+            <p class="mb-0 lead">Manage and resolve student complaints efficiently</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <button class="btn btn-light btn-lg" onclick="window.location.reload()">
+                <i class="bi bi-arrow-clockwise me-2"></i>Refresh
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="admin-stat-card bg-primary text-white">
+            <div class="stat-icon">
+                <i class="bi bi-file-earmark-text-fill"></i>
+            </div>
+            <h2 class="stat-number" data-target="{{ total }}">0</h2>
+            <p>Total Complaints</p>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="admin-stat-card bg-warning text-white">
+            <div class="stat-icon">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <h2 class="stat-number" data-target="{{ pending }}">0</h2>
+            <p>Pending Review</p>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="admin-stat-card bg-info text-white">
+            <div class="stat-icon">
+                <i class="bi bi-arrow-repeat"></i>
+            </div>
+            <h2 class="stat-number" data-target="{{ in_progress }}">0</h2>
+            <p>In Progress</p>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="admin-stat-card bg-success text-white">
+            <div class="stat-icon">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h2 class="stat-number" data-target="{{ resolved }}">0</h2>
+            <p>Resolved</p>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-section">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+        <h5 class="mb-3 mb-md-0">
+            <i class="bi bi-funnel me-2"></i>Filter Complaints
+        </h5>
+        <div class="btn-group flex-wrap" role="group">
+            <a href="?status=all" class="filter-btn btn {% if request.GET.status == 'all' or not request.GET.status %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <i class="bi bi-grid-fill me-1"></i>All
+            </a>
+            <a href="?status=pending" class="filter-btn btn {% if request.GET.status == 'pending' %}btn-warning text-white{% else %}btn-outline-warning{% endif %}">
+                <i class="bi bi-hourglass-split me-1"></i>Pending
+            </a>
+            <a href="?status=in_progress" class="filter-btn btn {% if request.GET.status == 'in_progress' %}btn-info text-white{% else %}btn-outline-info{% endif %}">
+                <i class="bi bi-arrow-repeat me-1"></i>In Progress
+            </a>
+            <a href="?status=resolved" class="filter-btn btn {% if request.GET.status == 'resolved' %}btn-success text-white{% else %}btn-outline-success{% endif %}">
+                <i class="bi bi-check-circle me-1"></i>Resolved
+            </a>
+            <a href="?status=escalated" class="filter-btn btn {% if request.GET.status == 'escalated' %}btn-danger text-white{% else %}btn-outline-danger{% endif %}">
+                <i class="bi bi-exclamation-triangle me-1"></i>Escalated
+            </a>
+            <a href="?status=archived" class="filter-btn btn {% if request.GET.status == 'archived' %}btn-secondary text-white{% else %}btn-outline-secondary{% endif %}">
+                <i class="bi bi-archive me-1"></i>Archived
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Complaints Container -->
+<div class="complaints-container">
+    <div class="complaints-header">
+        <h4 class="mb-0">
+            <i class="bi bi-list-check me-2"></i>
+            Complaint Management
+            <span class="badge bg-light text-dark ms-2">{{ complaints.count }} Complaint{{ complaints.count|pluralize }}</span>
+        </h4>
+    </div>
+    
+    <div class="p-4">
+        {% if complaints %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th><i class="bi bi-hash me-1"></i>ID</th>
+                            <th><i class="bi bi-person me-1"></i>Student</th>
+                            <th><i class="bi bi-folder me-1"></i>Category</th>
+                            <th><i class="bi bi-card-heading me-1"></i>Subject</th>
+                            <th><i class="bi bi-signal me-1"></i>Status</th>
+                            <th><i class="bi bi-calendar me-1"></i>Date</th>
+                            <th style="min-width: 280px;"><i class="bi bi-gear me-1"></i>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for complaint in complaints %}
+                        <tr class="complaint-row">
+                            <td>
+                                <strong class="text-primary">{{ complaint.complaint_id }}</strong>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                                        <strong>{{ complaint.student.username|slice:":1"|upper }}</strong>
+                                    </div>
+                                    <div>
+                                        <strong>{{ complaint.student.username }}</strong>
+                                        <br>
+                                        <small class="text-muted">{{ complaint.student.email }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">
+                                    {{ complaint.get_category_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <strong>{{ complaint.subject|truncatewords:5 }}</strong>
+                            </td>
+                            <td>
+                                {% if complaint.status == 'pending' %}
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="bi bi-hourglass-split me-1"></i>Pending
+                                    </span>
+                                {% elif complaint.status == 'in_progress' %}
+                                    <span class="badge bg-info">
+                                        <i class="bi bi-arrow-repeat me-1"></i>In Progress
+                                    </span>
+                                {% elif complaint.status == 'resolved' %}
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check-circle me-1"></i>Resolved
+                                    </span>
+                                {% elif complaint.status == 'escalated' %}
+                                    <span class="badge bg-danger">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>Escalated
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-dark">
+                                        <i class="bi bi-x-circle me-1"></i>Dismissed
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar-event me-1"></i>
+                                    {{ complaint.created_at|date:"d M, Y" }}
+                                </small>
+                            </td>
+                            <td class="action-buttons">
+                                <div class="d-flex gap-1">
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal{{ complaint.id }}" title="View & Respond">
+                                        <i class="bi bi-eye"></i> View
+                                    </button>
+                                    {% if not complaint.archived_by_admin %}
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#archiveModal{{ complaint.id }}" title="Archive">
+                                        <i class="bi bi-archive"></i>
+                                    </button>
+                                    {% endif %}
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ complaint.id }}" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- View & Respond Modals -->
+            {% for complaint in complaints %}
+            <div class="modal fade" id="viewModal{{ complaint.id }}" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header modal-header-admin">
+                            <h5 class="modal-title">
+                                <i class="bi bi-file-earmark-text me-2"></i>
+                                {{ complaint.complaint_id }} - Complaint Details
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <!-- Student Info -->
+                            <div class="mb-4 p-3 bg-light rounded">
+                                <h6 class="text-primary mb-3">
+                                    <i class="bi bi-person-badge me-2"></i>Student Information
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <strong>Name:</strong> {{ complaint.student.username }}
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <strong>Email:</strong> {{ complaint.student.email }}
+                                    </div>
+                                    {% if complaint.student.phone %}
+                                    <div class="col-md-6 mb-2">
+                                        <strong>Phone:</strong> {{ complaint.student.phone }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Complaint Details -->
+                            <div class="mb-3">
+                                <strong class="text-muted d-block mb-2">
+                                    <i class="bi bi-folder me-1"></i>Category:
+                                </strong>
+                                <span class="badge bg-secondary fs-6">{{ complaint.get_category_display }}</span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <strong class="text-muted d-block mb-2">
+                                    <i class="bi bi-card-heading me-1"></i>Subject:
+                                </strong>
+                                <h5>{{ complaint.subject }}</h5>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <strong class="text-muted d-block mb-2">
+                                    <i class="bi bi-text-paragraph me-1"></i>Description:
+                                </strong>
+                                <div class="border p-3 bg-light rounded">
+                                    {{ complaint.description|linebreaks }}
+                                </div>
+                            </div>
+                            
+                            {% if complaint.evidence %}
+                            <div class="mb-3">
+                                <strong class="text-muted d-block mb-2">
+                                    <i class="bi bi-paperclip me-1"></i>Evidence:
+                                </strong>
+                                <a href="{{ complaint.evidence.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-download me-1"></i>Download Evidence
+                                </a>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <strong class="text-muted d-block mb-2">
+                                    <i class="bi bi-calendar-check me-1"></i>Submitted:
+                                </strong>
+                                {{ complaint.created_at|date:"F d, Y - h:i A" }}
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <!-- Previous Responses -->
+                            {% if complaint.responses.all %}
+                            <h6 class="text-primary mb-3">
+                                <i class="bi bi-chat-left-text me-2"></i>Response History
+                            </h6>
+                            {% for response in complaint.responses.all %}
+                                <div class="previous-response">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <strong class="text-primary">
+                                            <i class="bi bi-person-circle me-1"></i>
+                                            {{ response.responder.username }}
+                                        </strong>
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock me-1"></i>
+                                            {{ response.responded_at|date:"M d, Y - h:i A" }}
+                                        </small>
+                                    </div>
+                                    <p class="mb-0">{{ response.message|linebreaks }}</p>
+                                </div>
+                            {% endfor %}
+                            <hr class="my-4">
+                            {% endif %}
+                            
+                            <!-- Response Form -->
+                            <div class="response-section">
+                                <h6 class="text-primary mb-3">
+                                    <i class="bi bi-reply-fill me-2"></i>Add New Response
+                                </h6>
+                                <form method="post" action="{% url 'admin_dashboard' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="bi bi-chat-square-text me-1"></i>Your Response *
+                                        </label>
+                                        <textarea class="form-control" name="response_message" rows="4" placeholder="Type your response to the student..." required></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="bi bi-gear me-1"></i>Update Status *
+                                        </label>
+                                        <select class="form-select" name="status" required>
+                                            <option value="pending" {% if complaint.status == 'pending' %}selected{% endif %}>
+                                                ⏳ Pending
+                                            </option>
+                                            <option value="in_progress" {% if complaint.status == 'in_progress' %}selected{% endif %}>
+                                                🔄 In Progress
+                                            </option>
+                                            <option value="resolved" {% if complaint.status == 'resolved' %}selected{% endif %}>
+                                                ✅ Resolved
+                                            </option>
+                                            <option value="escalated" {% if complaint.status == 'escalated' %}selected{% endif %}>
+                                                ⚠️ Escalated
+                                            </option>
+                                            <option value="dismissed" {% if complaint.status == 'dismissed' %}selected{% endif %}>
+                                                ❌ Dismissed
+                                            </option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="bi bi-send me-2"></i>Submit Response & Update Status
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <!-- Archive Modals -->
+            {% for complaint in complaints %}
+            <div class="modal fade" id="archiveModal{{ complaint.id }}" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning text-dark">
+                            <h5 class="modal-title">
+                                <i class="bi bi-archive me-2"></i>
+                                Archive Complaint
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center py-3">
+                                <i class="bi bi-archive" style="font-size: 3rem; color: #f59e0b;"></i>
+                                <h5 class="mt-3">Archive Complaint {{ complaint.complaint_id }}?</h5>
+                                <div class="text-start mt-3 p-3 bg-light rounded">
+                                    <p class="mb-2"><strong>Student:</strong> {{ complaint.student.username }}</p>
+                                    <p class="mb-0"><strong>Subject:</strong> {{ complaint.subject }}</p>
+                                </div>
+                                <div class="alert alert-info mt-3 mb-0">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    This complaint will be moved to the "Archived" section. You can view it anytime by clicking the "Archived" filter. The student will still see it in their dashboard.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg me-2"></i>Cancel
+                            </button>
+                            <a href="{% url 'archive_complaint' complaint.id %}" class="btn btn-warning">
+                                <i class="bi bi-archive me-2"></i>Yes, Archive
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <!-- Delete Modals -->
+            {% for complaint in complaints %}
+            <div class="modal fade" id="deleteModal{{ complaint.id }}" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">
+                                <i class="bi bi-trash me-2"></i>
+                                Delete Complaint
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center py-3">
+                                <i class="bi bi-trash" style="font-size: 3rem; color: #dc3545;"></i>
+                                <h5 class="mt-3">Delete Complaint {{ complaint.complaint_id }}?</h5>
+                                <div class="text-start mt-3 p-3 bg-light rounded">
+                                    <p class="mb-2"><strong>Student:</strong> {{ complaint.student.username }}</p>
+                                    <p class="mb-0"><strong>Subject:</strong> {{ complaint.subject }}</p>
+                                </div>
+                                <div class="alert alert-warning mt-3 mb-0">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                    <strong>Note:</strong> This will permanently remove the complaint from your admin view. You will NOT be able to see it even in the archived section. The student will still have access to it in their dashboard.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg me-2"></i>Cancel
+                            </button>
+                            <a href="{% url 'delete_complaint' complaint.id %}" class="btn btn-danger">
+                                <i class="bi bi-trash me-2"></i>Yes, Delete from My View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        {% else %}
+            <div class="empty-state-admin">
+                <i class="bi bi-inbox"></i>
+                <h4>No Complaints Found</h4>
+                <p>
+                    {% if request.GET.status == 'archived' %}
+                        No archived complaints at this time.
+                    {% elif request.GET.status and request.GET.status != 'all' %}
+                        No complaints with status "{{ request.GET.status|title }}"
+                    {% else %}
+                        There are no complaints to display at this time.
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

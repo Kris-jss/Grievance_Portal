@@ -137,7 +137,7 @@ python manage.py runserver
 ## 👨‍💻 Author
 
 **Krrish** 
-Built as an intermediate-level Django project for learning purposes.
+- Built as an intermediate-level Django project for learning purposes.
 
 ## 📄 License
 
